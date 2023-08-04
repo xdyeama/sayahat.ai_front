@@ -60,7 +60,7 @@ extension ActivityView{
     private var imageContainer: some View{
         VStack{
             ZStack(alignment: .topTrailing){
-                if let imageUrl = activityImageUrl.randomElement(){
+                if let imageUrl = activityImageUrl.first{
                     WebImage(url: URL(string: imageUrl))
                         .resizable()
                         .scaledToFill()
@@ -99,7 +99,6 @@ extension ActivityView{
                 .font(.caption.bold())
                 .multilineTextAlignment(.leading)
                 .foregroundColor(.black)
-                .frame(width: .infinity)
             HStack(spacing: 1){
                 Text(city)
                     .font(.caption)
@@ -125,7 +124,7 @@ extension ActivityView{
         HStack{
             Image(systemName: "star.fill")
                 .foregroundColor(Color.yellow)
-            Text(String(rating))
+            Text(Int(rating) == 0 ? "No data" : String(rating))
                 .font(.caption2)
         }
     }
@@ -165,7 +164,7 @@ struct DaysPlanView: View {
     var body: some View {
         VStack {
             tripTitleView
-            horizDaysView
+//            horizDaysView
             Rectangle()
                 .foregroundColor(.clear)
                 .frame(width: 343, height: 1)
@@ -222,13 +221,13 @@ extension DaysPlanView{
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20)
-                Text("\(Int(distance*10)) km")
+                Text("\(String(format: "%.1f", distance*10)) km")
                     .font(.caption)
                 Image(systemName: "car.fill")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20)
-                Text("\(Int(distance*10/60*60)) mins")
+                Text("\(String(format: "%.1f", distance*10*2)) mins")
                     .font(.caption)
             }
             Spacer()
@@ -238,7 +237,7 @@ extension DaysPlanView{
     }
     
     private var dayPlansView: some View{
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 12) {
                 ForEach(dayPlans, id: \.id){
                     dayPlan in
@@ -255,7 +254,7 @@ extension DaysPlanView{
                             HStack(spacing: 1){
                                 sideElement(color: colors[dayPlan.day_num - 1])
                                 VStack(spacing: 0){
-                                    NavigationLink(value: activity){
+                                    NavigationLink(value: SelectionState.activity(activity)){
                                         ActivityView(activityName: activity.place_name, activityImageUrl: activity.image_url, activityTypes: activity.activity_types, rating: activity.rating, coordinates: activity.coordinates, city: dayPlan.city, website: activity.website)
                                     }
                                     if let nextActivity = dayPlan.activities[(dayPlan.activities.firstIndex(of: activity) ?? 0)+1]{

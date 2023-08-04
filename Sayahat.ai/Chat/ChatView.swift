@@ -9,15 +9,12 @@ import SwiftUI
 import Combine
 
 struct ChatView: View {
+    @EnvironmentObject var networkMonitor: NetworkMonitor
     @StateObject var chatVM: ChatViewModel = ChatViewModel()
 
     
     
     var body: some View {
-        ZStack(alignment: .topTrailing){
-            SettingsButton()
-            Color("Background")
-                .ignoresSafeArea()
             VStack{
                 header
                 ScrollViewReader{ proxy in
@@ -37,33 +34,42 @@ struct ChatView: View {
                         }
                     }
                 }
-                HStack{
-                    TextField("Message", text: $chatVM.message, axis: .vertical)
-                        .textFieldStyle(.roundedBorder)
-                        .cornerRadius(10)
-                        .background(.clear)
-                        .foregroundColor(Color.gray.opacity(0.5))
-                        .padding(.vertical, 3)
-                        .frame(height: 50)
-                    
-                    if chatVM.isWaitingResponse{
-                        ProgressView()
-                            .padding()
-                    }else{
-                        Button{
-                            chatVM.sendMessage()
-                        }label: {
-                            Image(systemName: "paperplane.fill")
-                                .frame(width: 50, height: 50)
-                                .foregroundColor(.black)
-                                .scaledToFill()
+                if networkMonitor.isConnected{
+                    HStack{
+                        
+                        TextField("Message", text: $chatVM.message, axis: .vertical)
+                            .foregroundColor(.black)
+                            .autocorrectionDisabled(true)
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 10)
+                            .background(Color("TextField"))
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                            .textInputAutocapitalization(.never)
+                        
+                        if chatVM.isWaitingResponse{
+                            ProgressView()
+                                .padding()
+                        }else{
+                            Button{
+                                chatVM.sendMessage()
+                            }label: {
+                                Image(systemName: "paperplane.fill")
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(.black)
+                                    .scaledToFit()
+                            }
                         }
                     }
+                    .padding(.horizontal, 10)
+                    .frame(height: 50)
+                }else{
+                    Text("No internet connection. Please connect to the internet and try again")
+                        .font(.callout.bold())
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.red)
                 }
-                .padding(.horizontal, 10)
-                .frame(height: 50)
             }
-        }
+        .padding(.horizontal)
         .onTapGesture {
             hideKeyboard()
         }
@@ -117,7 +123,7 @@ extension ChatView{
                     Text(message.text)
                         .foregroundColor(message.owner == .user ? .white : Color("Text"))
                         .padding(12)
-                        .background(message.owner == .user ? Color("UserChatMessageBg") : Color("AssistantChatMessageBg"))
+                        .background(message.owner == .user ? Color("UserChatMessageBg") : Color(red: 133 / 255,green: 252,blue: 131 / 255))
                         .cornerRadius(16)
                         .overlay(alignment: message.owner == .user ? .topTrailing : .topLeading){
                             Text(message.owner.rawValue.capitalized)

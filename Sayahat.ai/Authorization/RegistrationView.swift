@@ -13,8 +13,7 @@ enum RegisterStatus{
 
 
 struct RegistrationView: View {
-    @ObservedObject var authorizationVM: AuthorizationViewModel
-    @Binding var isLoggedIn: Bool
+    @EnvironmentObject var authorizationVM: AuthorizationViewModel
     @State var isEmailInvalid: Bool = false
     @State var passwordsDontMatch: Bool = false
     @State var fullName: String = ""
@@ -22,32 +21,40 @@ struct RegistrationView: View {
     @State var passwordText: String = ""
     @State var passwordConfirm: String = ""
     @State var isRegistered: Bool = false
+    @State var showPassword: Bool = false
+    @State var showConfirmPassword: Bool = false
     var body: some View {
         VStack(spacing: 12){
-            Text("SignUp")
-                .font(.title.bold())
-                .foregroundColor(Color.black)
+            VStack(spacing: 10){
+                Image("app_logo")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 150, height: 150)
+                Text("SayahatAI")
+                    .font(.title.bold())
+                    .multilineTextAlignment(.center)
+            }
             
             VStack(alignment: .leading, spacing: 8){
                 Text("Email")
                     .font(.callout.bold())
                     .foregroundColor(Color.black)
-                CustomTextField(placeholder: "example@mail.com", value: $emailText)
+                CustomTextField(placeholder: "example@mail.com", value: $emailText, showPassword: $showPassword)
                 
                 Text("Password")
                     .font(.callout.bold())
                     .foregroundColor(Color.black)
-                CustomTextField(placeholder: "********", value: $passwordText, isPassword: true)
+                CustomTextField(placeholder: "********", value: $passwordText, isPassword: true, showPassword: $showPassword)
                 
                 Text("Confirm Password")
                     .font(.callout.bold())
                     .foregroundColor(Color.black)
-                CustomTextField(placeholder: "********", value: $passwordConfirm, isPassword: true)
+                CustomTextField(placeholder: "********", value: $passwordConfirm, isPassword: true, showPassword: $showConfirmPassword)
                 
                 HStack{
                     Text("Already a member? ")
                         .font(.subheadline)
-                    NavigationLink(value: "Authorization"){
+                    NavigationLink(value: SelectionState.string("Authorization")){
                         Text("Sign in")
                             .font(.subheadline)
                             .underline()
@@ -55,7 +62,7 @@ struct RegistrationView: View {
                     }
                 }
                 if authorizationVM.registerStatus == .none{
-                    NavigationLink(destination: AuthorizationView(authorizationVM: authorizationVM, isLoggedIn: $isLoggedIn)){
+                    NavigationLink(value: SelectionState.string("Authorization")){
                         Button{
                             validateEmail()
                             if emailText != "" && passwordText != "" && passwordConfirm != ""{
@@ -82,7 +89,7 @@ struct RegistrationView: View {
                                     .frame(maxWidth: .infinity)
                                 
                             }
-                            .padding(.top, 30)
+                            .padding(.top, 10)
                         }
                     }
                 }else if authorizationVM.registerStatus == .loading{
@@ -130,12 +137,34 @@ struct RegistrationView: View {
 }
 
 extension RegistrationView{
-    func CustomTextField(placeholder: String, value: Binding<String>, isPassword: Bool = false) -> some View{
+    func CustomTextField(placeholder: String, value: Binding<String>, isPassword: Bool = false, showPassword: Binding<Bool>) -> some View{
         Group {
             if isPassword{
-                SecureField(placeholder, text: value)
-                    .disableAutocorrection(true)
-                
+                if showPassword.wrappedValue {
+                    HStack{
+                        TextField(placeholder, text: value)
+                            .disableAutocorrection(true)
+                        Image(systemName: "eye.slash")
+                            .resizable()
+                            .frame(width: 20, height: 15)
+                            .foregroundColor(.gray)
+                            .onTapGesture{
+                                showPassword.wrappedValue.toggle()
+                            }
+                    }
+                } else {
+                    HStack{
+                        SecureField(placeholder, text: value)
+                            .disableAutocorrection(true)
+                        Image(systemName: "eye")
+                            .resizable()
+                            .frame(width: 20, height: 15)
+                            .foregroundColor(.gray)
+                            .onTapGesture{
+                                showPassword.wrappedValue.toggle()
+                            }
+                    }
+                }
             }else{
                 TextField(placeholder, text: value)
                     .disableAutocorrection(true)
@@ -148,7 +177,6 @@ extension RegistrationView{
         .foregroundColor(.black)
         .background(Color("TextField"))
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .disableAutocorrection(true)
         .textInputAutocapitalization(.never)
     }
     
@@ -163,7 +191,7 @@ extension RegistrationView{
             print("Valid email: \(emailText)")
         } else {
             // Show alert for invalid email format
-            isEmailInvalid = true
+            isEmailInvalid = true 
         }
     }
     

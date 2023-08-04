@@ -9,7 +9,7 @@ import SwiftUI
 
 enum Tab: String, CaseIterable{
     case bag
-    case map
+    case newspaper
     case message
 }
 
@@ -21,17 +21,14 @@ struct MainTabView: View {
     }
     var body: some View {
         ZStack(alignment: .center){
-            Rectangle()
-                .frame(width: 350, height: 64)
-                .cornerRadius(20)
-                .foregroundColor(Color.white)
-                .shadow(color: .black.opacity(0.12), radius: 25, x: 0, y: 4)
+            background
             TabView(selection: $selectedTab){
                 mapTab
                 chatTab
                 tripsTab
             }
         }
+        .background(.white)
 
     }
 }
@@ -42,25 +39,25 @@ extension MainTabView{
             .frame(width: 350, height: 64)
             .cornerRadius(20)
             .foregroundColor(Color.white)
-            .shadow(color: .black.opacity(0.12), radius: 25, x: 0, y: 4)
+            .backgroundStyle(.white)
     }
     
     private var mapTab: some View {
-        MapView().tabItem{
+        NewsView().tabItem{
             Spacer()
             VStack{
-                Image(systemName: selectedTab == .map ? fillImage : Tab.map.rawValue)
-                    .scaleEffect(selectedTab == .map ? 1.25 : 1.0)
-                    .foregroundColor(selectedTab == .map ? Color.black : Color.gray)
+                Image(systemName: selectedTab == .newspaper ? fillImage : Tab.newspaper.rawValue)
+                    .scaleEffect(selectedTab == .newspaper ? 1.25 : 1.0)
+                    .foregroundColor(selectedTab == .newspaper ? Color.black : Color.gray)
                     .font(.system(size: 22))
                     .onTapGesture{
                         withAnimation(.easeIn(duration: 0.1)){
-                            selectedTab = .map
+                            selectedTab = .newspaper
                         }
                     }
-                Text("Map")
+                Text("News")
             }
-        }.tag(Tab.map)
+        }.tag(Tab.newspaper)
     }
     
     private var chatTab: some View{

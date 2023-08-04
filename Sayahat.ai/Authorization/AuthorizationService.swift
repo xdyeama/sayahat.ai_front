@@ -15,6 +15,7 @@ enum AuthorizationService{
     case getMyAccount(token: String)
     case deleteUser(token: String)
     case changePassword(token: String, newPassword: String)
+    case resetPassword(email: String)
 }
 
 extension AuthorizationService: TargetType{
@@ -32,6 +33,8 @@ extension AuthorizationService: TargetType{
                 return "/users/me"
             case .changePassword:
                 return "/users/password/change"
+            case .resetPassword:
+                return "/users/password/reset"
             }
         
     }
@@ -46,6 +49,8 @@ extension AuthorizationService: TargetType{
             return .put
         case .deleteUser:
             return .delete
+        case .resetPassword:
+            return .put
         }
     }
     
@@ -62,6 +67,8 @@ extension AuthorizationService: TargetType{
         case .changePassword(let token, _):
             return ["accept": "application/json",
                     "Authorization": "Bearer \(token)"]
+        case .resetPassword(_):
+            return ["accept": "application/json"]
         }
     }
     
@@ -89,6 +96,12 @@ extension AuthorizationService: TargetType{
         case let .changePassword(_, newPassword):
             let bodyParams: [String : String] = [
                 "new_password": newPassword
+            ]
+            return .requestJSONEncodable(bodyParams)
+            
+        case let .resetPassword(email):
+            let bodyParams: [String : String] = [
+                "email": email
             ]
             return .requestJSONEncodable(bodyParams)
         }

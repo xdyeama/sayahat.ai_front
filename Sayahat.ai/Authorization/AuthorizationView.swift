@@ -47,40 +47,47 @@ enum LoginStatus{
 
 
 struct AuthorizationView: View {
-    @ObservedObject var authorizationVM: AuthorizationViewModel
+    @EnvironmentObject var authorizationVM: AuthorizationViewModel
     @State var isShowingAlert: Bool = false
     @State var loginStatus: LoginStatus = .none
     @State var emailText: String = ""
     @State var passwordText: String = ""
-    @Binding var isLoggedIn: Bool
+    @State var showPassword: Bool = false
     var body: some View {
-        NavigationStack{
             ZStack{
                 
                 VStack(spacing: 12){
-                    Text("Log In")
-                        .font(.title.bold())
-                        .foregroundColor(Color.black)
-                    
+                    VStack(spacing: 10){
+                        Image("app_logo")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 150, height: 150)
+                        Text("SayahatAI")
+                            .font(.title.bold())
+                            .multilineTextAlignment(.center)
+                    }
+                    //                    Text("Log In")
+                    //                        .font(.title.bold())
+                    //                        .foregroundColor(Color.black)
+                    //
                     VStack(alignment: .leading, spacing: 8){
                         Text("Email")
                             .font(.callout.bold())
                             .foregroundColor(Color.black)
-                        CustomTextField(placeholder: "example@mail.com", value: $emailText)
+                        CustomTextField(placeholder: "example@mail.com", value: $emailText, showPassword: $showPassword)
                         
                         
                         Text("Password")
                             .font(.callout.bold()).foregroundColor(Color.black)
                         
-                        CustomTextField(placeholder: "********", value: $passwordText, isPassword: true)
+                        CustomTextField(placeholder: "********", value: $passwordText, isPassword: true, showPassword: $showPassword)
                             .disableAutocorrection(true)
                         
-                        //                        NavigationLink(value: "Forgot password"){
-                        //                            Text("Forgot password")
-                        //                                .font(.subheadline)
-                        //                                .underline()
-                        //                                .foregroundColor(.blue)
-                        //                        }
+                        NavigationLink(value: SelectionState.string("forgot password")){
+                            Text("Forgot password")
+                                .font(.subheadline)
+                                .foregroundColor(.blue)
+                        }
                         HStack{
                             Spacer()
                             if authorizationVM.loginStatus == .none {
@@ -89,15 +96,20 @@ struct AuthorizationView: View {
                                         authorizationVM.email = emailText
                                         authorizationVM.password = passwordText
                                         validateEmail()
-                                        authorizationVM.authorize(isLoggedIn: $isLoggedIn)
+                                        authorizationVM.authorize()
                                     }label:{
                                         LoginButton()
                                         
                                     }
-                                    NavigationLink(destination: RegistrationView(authorizationVM: authorizationVM, isLoggedIn: $isLoggedIn)){
-                                        CustomSignUpButton()
+                                    HStack{
+                                        Text("Don't have account?")
+                                        NavigationLink(value: SelectionState.string("Registration")){
+                                            Text("Register")
+                                                .font(.subheadline)
+                                                .foregroundColor(.blue)
+                                        }
                                     }
-                                }.padding(.top, 30)
+                                }.padding(.top, 10)
                                 
                             }else if authorizationVM.loginStatus == .loading{
                                 ProgressView()
@@ -132,7 +144,6 @@ struct AuthorizationView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .padding(.horizontal, 40)
-        }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onTapGesture {
             hideKeyboard()
@@ -145,12 +156,34 @@ struct AuthorizationView: View {
 
 
 extension AuthorizationView{
-    func CustomTextField(placeholder: String, value: Binding<String>, isPassword: Bool = false) -> some View{
+    func CustomTextField(placeholder: String, value: Binding<String>, isPassword: Bool = false, showPassword: Binding<Bool>) -> some View{
         Group {
             if isPassword{
-                SecureField(placeholder, text: value)
-                    .disableAutocorrection(true)
-                
+                if showPassword.wrappedValue {
+                    HStack{
+                        TextField(placeholder, text: value)
+                            .disableAutocorrection(true)
+                        Image(systemName: "eye.slash")
+                            .resizable()
+                            .frame(width: 20, height: 15)
+                            .foregroundColor(.gray)
+                            .onTapGesture{
+                                showPassword.wrappedValue.toggle()
+                            }
+                    }
+                } else {
+                    HStack{
+                        SecureField(placeholder, text: value)
+                            .disableAutocorrection(true)
+                        Image(systemName: "eye")
+                            .resizable()
+                            .frame(width: 20, height: 15)
+                            .foregroundColor(.gray)
+                            .onTapGesture{
+                                showPassword.wrappedValue.toggle()
+                            }
+                    }
+                }
             }else{
                 TextField(placeholder, text: value)
                     .disableAutocorrection(true)

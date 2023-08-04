@@ -33,9 +33,13 @@ func checkCitiesSelected(citiesList: [CityCases], city: CityCases) -> Bool{
 
 
 struct MainInputView: View {
-    @ObservedObject var inputVM: InputViewModel
-    @Binding var navPath: NavigationPath
+    @EnvironmentObject var networkMonitor: NetworkMonitor
+    @EnvironmentObject var navigationStateManager: NavigationStateManager
+    @StateObject var inputVM = InputViewModel()
     @Binding var selectedTab: Tab
+    private var chosenCities: [String] {
+        cities.map { $0.rawValue.capitalized }
+    }
     // cities input
     
     // num days input
@@ -56,16 +60,14 @@ struct MainInputView: View {
     @State var cities: [CityCases] = []
     @State var travelPrefs: [TravelPreference] = []
     
-    private var chosenCities: [String] {
-            cities.map { $0.rawValue.capitalized }
-        }
     
     
     var body: some View {
         
         ZStack{
-            if isRequestProcessing{
-                PlanGenerationView(inputVM: inputVM, isRequestProcessed: $isRequestProcessed, selectedTab: $selectedTab, path: $navPath, chosenCities: chosenCities)
+            if inputVM.isRequestProcessing{
+                PlanGenerationView(inputVM: inputVM, selectedTab: $selectedTab, chosenCities: chosenCities)
+                    .environmentObject(navigationStateManager)
             }else{
                 VStack{
                     Form{
@@ -87,7 +89,14 @@ struct MainInputView: View {
                     .sheet(isPresented: $isCitiesFormExpanded){
                         TravelPreferencesView(travelPrefsString: $travelPrefsString, travelPrefs: $travelPrefs)
                     }
-                    generateTripButton
+                    if networkMonitor.isConnected{
+                        generateTripButton
+                    }else{
+                        Text("No internet connection. Please connect to the internet and try again")
+                            .font(.callout.bold())
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.red)
+                    }
                 }
             }
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -95,6 +104,7 @@ struct MainInputView: View {
                 // Dismiss the keyboard when tapping the background
                 self.endEditing()
             }
+
     }
 }
 
@@ -214,7 +224,6 @@ extension MainInputView{
     
     private var generateTripButton: some View{
         Button{
-            navPath = NavigationPath()
             inputVM.citiesString = citiesString
             inputVM.travelPreferences = travelPrefs
             inputVM.tripTitle = tripTitle

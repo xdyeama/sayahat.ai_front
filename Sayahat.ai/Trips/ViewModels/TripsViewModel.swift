@@ -7,6 +7,7 @@
 
 import Foundation
 import Moya
+import SwiftUI
 
 
 struct ActivityMapModel: Codable{
@@ -120,7 +121,7 @@ class TripsViewModel: ObservableObject{
         }
     }
     
-    func deleteTrip(tripId: String){
+    func deleteTrip(tripId: String, isTripDeleted: Binding<Bool>){
         provider.request(.deleteTrip(token: AppDataAPI.token, tripId: tripId)){
             result in
             switch result{
@@ -128,8 +129,10 @@ class TripsViewModel: ObservableObject{
                 if response.statusCode == 200{
                     do{
                         AppDataAPI.trips = AppDataAPI.trips.filter { $0._id != tripId }
+                        isTripDeleted.wrappedValue.toggle()
                     }catch{
                         print("Error decoding JSON: \(error.localizedDescription)")
+                        
                     }
                 }else{
                     print("Trip deleting failed. Response: \(response.statusCode)")

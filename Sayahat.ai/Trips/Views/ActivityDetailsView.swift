@@ -199,11 +199,7 @@ extension ActivityDetailsView{
     private var contactsContainer: some View{
         HStack{
             if let number = contactNumber{
-                Text("Contact: \(number)")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-            }else{
-                Text("Contact: No data")
+                Text("Contact: \(number != "" ? number : "No data")")
                     .font(.subheadline)
                     .fontWeight(.semibold)
             }
@@ -293,7 +289,7 @@ extension ActivityDetailsView{
         if let phoneURL = URL(string: "tel://\(contactNumber)"), UIApplication.shared.canOpenURL(phoneURL) {
             UIApplication.shared.open(phoneURL, options: [:], completionHandler: nil)
         }else{
-            
+            showPhoneAlert()
         }
     }
     private func showPhoneAlert() {

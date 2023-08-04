@@ -87,23 +87,27 @@ struct TravelPreferencesView: View {
     @Binding var travelPrefsString: String
     @Binding var travelPrefs: [TravelPreference]
     var body: some View {
-        ZStack{
-            
+        VStack(){
+        
                 Rectangle()
                     .frame(width: 100, height: 5)
                     .foregroundColor(.black)
                     .cornerRadius(5)
             VStack{
+                Spacer()
                 LazyVGrid(columns:[GridItem(.fixed(140)), GridItem(.fixed(140))], alignment: .center, spacing: 8){
                     ForEach(TravelPreference.allCases, id: \.rawValue){
                         pref in
                         TravelOption(travelPrefsString: $travelPrefsString, travelPrefs: $travelPrefs ,travelCase: pref)
                     }
-                    
                 }
-                    
-                }
+                Spacer()
+
             }
+            Spacer()
+                    
+            }
+        .padding()
         }
     }
 

@@ -16,10 +16,16 @@ struct ChangePasswordView: View {
     var body: some View {
         VStack{
             VStack(spacing: 50){
-                Text("Change password form")
-                    .font(.title.bold())
-                
+
                 VStack(alignment: .center, spacing: 10){
+                    
+                    Image("app_logo")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 150, height: 150)
+                    Text("SayahatAI")
+                        .font(.title.bold())
+                        .multilineTextAlignment(.center)
                     VStack(alignment: .leading){
                         Text("New password")
                             .font(.subheadline.bold())
@@ -29,24 +35,29 @@ struct ChangePasswordView: View {
                         changePassword()
                     }label:{
 
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .frame(maxWidth: .infinity, maxHeight: 50)
+                                .padding(.vertical, 12)
                             Text("Change password")
-                            .font(.subheadline.bold())
-                                .frame(maxWidth: 140, maxHeight: 45)
-                                .backgroundStyle(.clear)
-                                .background(.black)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                                .padding()
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color("LoginButtonText"))
+                                .padding(.vertical, 12)
+                                .background(Color("LoginButtonBg"))
+
+                        }
+                        .frame(height: 100)
+                        .padding()
                     }
-                    .buttonStyle(.plain)
 
                 }
-                Spacer()
             }
             .frame(maxHeight: 300)
             .padding()
-         Spacer()
         }
+        .padding()
+        .navigationTitle("Change password")
         .alert(isPresented: $isPasswordChangeSuccess){
             Alert(title: Text("Successfully changed password"), message: Text("You have successfully changed your password. Your new password is \(newPassword). Use it next time loginning in."), dismissButton: .default(Text("OK")))
         }

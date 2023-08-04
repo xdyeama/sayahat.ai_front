@@ -11,20 +11,24 @@ import SDWebImageSwiftUI
 
 
 struct TripsView: View {
+    @EnvironmentObject var navigationStateManager: NavigationStateManager
     @StateObject private var tripsVM: TripsViewModel = TripsViewModel()
     @StateObject var inputVM = InputViewModel()
     @Binding var selectedTab: Tab
     @Binding var isLoggedIn: Bool
-    @State var tripsNavPath = NavigationPath()
     @State var isTripDeleted: Bool = false
+    @State var isRequestProcessing: Bool = false
+    @State var isRequestProcessed: Bool = false
+    @State var chosenCities: [String] = []
+    @State var isActive: Bool = false
 
     
     var body: some View {
-        NavigationStack(path: $tripsNavPath){
+//        NavigationStack(path: $navigationStateManager.path){
             ZStack(alignment: .top){
                 HStack{
                     Spacer()
-                    NavigationLink(destination: SettingsView(isLoggedIn: $isLoggedIn)){
+                    NavigationLink(value: SelectionState.string("settings")){
                         Image(systemName: "gearshape")
                             .font(.headline)
                             .fontWeight(.bold)
@@ -32,19 +36,8 @@ struct TripsView: View {
                             .foregroundColor(.black)
                             .padding()
                     }
-                    Button{
-                        AppDataAPI.isLoggedIn = false
-                        AppDataAPI.token = ""
-                        isLoggedIn = false
-                    }label:{
-                        Image(systemName: "door.right.hand.open")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20,height: 20)
-                            .font(.headline)
-                            .fontWeight(.bold)
-                    }
                 }.padding(.trailing, 10)
+                    .padding(.top, 18)
                 ZStack(alignment: .bottomTrailing){
                     VStack(alignment: .center){
                         Text("Your tours")
@@ -53,7 +46,8 @@ struct TripsView: View {
                             )
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
-                            .foregroundStyle(LinearGradient(colors: [.black, .gray], startPoint: .leading, endPoint: .trailing) )
+                            .foregroundStyle(.black)
+                            .padding(.top, 26)
                         VStack(alignment: .center){
                             if AppDataAPI.trips.isEmpty{
                                 noToursView
@@ -64,30 +58,20 @@ struct TripsView: View {
                     }
                     if !AppDataAPI.trips.isEmpty{
                         createTourButtonOverlay
+                            .padding(.bottom, 16)
                     }
                 }
             }
-            .edgesIgnoringSafeArea(.all)
             .onAppear{
                 tripsVM.fetchTrips()
             }
-            .navigationDestination(for: TripMapModel.self){ tripModel in
-                DaysPlanView(tripTitle: tripModel.trip_title, dayPlans: tripModel.trips)
-            }
-            .navigationDestination(for: ActivityMapModel.self){
-                activityModel in
-                
-                ActivityDetailsView(title: activityModel.place_name, imageUrl: activityModel.image_url, address: activityModel.address, contactNumber: activityModel.contact_number, rating: activityModel.rating, activityTypes: activityModel.activity_types, website: activityModel.website, description: activityModel.place_description, coordinates: activityModel.coordinates)
-            }
-        }
+//        }
     }
 }
 
 
 
 extension TripsView{
-    
-
     private var noToursView: some View{
         VStack(alignment: .center){
             Image("tourists")
@@ -109,10 +93,10 @@ extension TripsView{
     
     private var tripList: some View{
         ZStack{
-            ScrollView{
-                ForEach(AppDataAPI.trips, id: \.trip_title){
+            ScrollView(showsIndicators: false){
+                ForEach(AppDataAPI.trips.reversed(), id: \.trip_title){
                     trip in
-                    NavigationLink(value: trip){
+                    NavigationLink(value: SelectionState.trip(trip)){
                         TripView(tripsVM: tripsVM, isTripDeleted: $isTripDeleted, tripId: trip._id, tripTitle: trip.trip_title, tripTags: trip.trip_tags,  dayPlans: trip.trips)
                     }
                 }
@@ -129,7 +113,7 @@ extension TripsView{
         Button{
             
         }label: {
-            NavigationLink(destination: MainInputView(inputVM: inputVM, navPath: $tripsNavPath, selectedTab: $selectedTab)){
+            NavigationLink(value: SelectionState.string("input")){
                 ZStack {
                     Rectangle()
                         .foregroundColor(.clear)
@@ -147,6 +131,8 @@ extension TripsView{
                 .frame(width: 157.12762, height: 38)
                 .padding(30)
             }
+            .isDetailLink(false)
+
         }
     }
     
@@ -154,7 +140,7 @@ extension TripsView{
         Button{
             
         }label: {
-            NavigationLink(destination: MainInputView(inputVM: inputVM, navPath: $tripsNavPath, selectedTab: $selectedTab)){
+            NavigationLink(value: SelectionState.string("input")){
                 ZStack {
                     Rectangle()
                         .foregroundColor(.clear)
@@ -172,6 +158,7 @@ extension TripsView{
                         .foregroundColor(.black)
                 }
             }
+            .isDetailLink(false)
         }
         .padding(.trailing, 30)
         .padding(.bottom, 30)

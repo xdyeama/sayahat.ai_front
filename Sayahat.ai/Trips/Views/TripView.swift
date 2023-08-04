@@ -63,7 +63,7 @@ extension TripView{
                     WebImage(url: URL(string: getTripImage()))
                         .resizable()
                         .scaledToFill()
-                        .frame(height: 200))
+                        .frame(height: 230))
                 .padding(0)
             ZStack{
                 Rectangle()
@@ -110,8 +110,9 @@ extension TripView{
     
     private var deleteTripButton: some View{
         Button{
-            tripsVM.deleteTrip(tripId: tripId)
+            tripsVM.deleteTrip(tripId: tripId, isTripDeleted: $isTripDeleted)
             isTripDeleted.toggle()
+            tripsVM.fetchTrips()
         }label: {
             ZStack{
                 Rectangle()

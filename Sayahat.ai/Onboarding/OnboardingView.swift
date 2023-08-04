@@ -23,7 +23,6 @@ struct OnboardingView: View {
                     }
                 }
                 .tabViewStyle(.page)
-                .frame(height: 600)
                 VStack(alignment: .center, spacing: 12){
                     
                     Button{
@@ -37,7 +36,7 @@ struct OnboardingView: View {
                         onboardingVM.isOnboarding = false
                         
                     }label: {
-                        NavigationLink(value: "Registration"){
+                        NavigationLink(value: SelectionState.string("Registration")){
                             CustomSignUpButton()
                         }
                     }
@@ -45,7 +44,7 @@ struct OnboardingView: View {
                 .padding(.horizontal, 80)
             }
         }
-        .ignoresSafeArea()
+        .padding()
     }
 }
 

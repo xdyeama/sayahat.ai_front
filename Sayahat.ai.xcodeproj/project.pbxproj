@@ -10,6 +10,8 @@
 		6614C0BF2A7394BF00BEC1B3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6614C0BE2A7394BF00BEC1B3 /* Launch Screen.storyboard */; };
 		6614C0C32A74CC0500BEC1B3 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614C0C22A74CC0500BEC1B3 /* ChangePasswordView.swift */; };
 		6614C0C52A751D9100BEC1B3 /* FAQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614C0C42A751D9100BEC1B3 /* FAQView.swift */; };
+		66196B012A7B9CCD00735C4F /* RootPresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66196B002A7B9CCD00735C4F /* RootPresentationView.swift */; };
+		66196B032A7C0F4400735C4F /* NavigationStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66196B022A7C0F4400735C4F /* NavigationStateManager.swift */; };
 		664842862A6F999600C23F23 /* Sayahat_aiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664842852A6F999600C23F23 /* Sayahat_aiApp.swift */; };
 		664842882A6F999600C23F23 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664842872A6F999600C23F23 /* ContentView.swift */; };
 		6648428A2A6F999800C23F23 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 664842892A6F999800C23F23 /* Assets.xcassets */; };
@@ -65,12 +67,20 @@
 		665B22FB2A72B776000F587E /* CustomMoyaProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665B22FA2A72B776000F587E /* CustomMoyaProvider.swift */; };
 		666B3F622A7162B0002E2945 /* DefaultAlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666B3F612A7162B0002E2945 /* DefaultAlamofireManager.swift */; };
 		667D90E82A765AA800C059D4 /* cityFacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667D90E72A765AA800C059D4 /* cityFacts.swift */; };
+		66CF3DFB2A7989F10036E904 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF3DFA2A7989F10036E904 /* NewsView.swift */; };
+		66CF3DFD2A7999790036E904 /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF3DFC2A7999790036E904 /* NewsService.swift */; };
+		66E19E212A7A08D500BED6C4 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E19E202A7A08D400BED6C4 /* NewsViewModel.swift */; };
+		66E19E232A7A08E300BED6C4 /* NewsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E19E222A7A08E300BED6C4 /* NewsDetailView.swift */; };
+		66E19E252A7B4FFF00BED6C4 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E19E242A7B4FFF00BED6C4 /* NetworkMonitor.swift */; };
+		66E19E272A7B513200BED6C4 /* NoNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E19E262A7B513200BED6C4 /* NoNetworkView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6614C0BE2A7394BF00BEC1B3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		6614C0C22A74CC0500BEC1B3 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		6614C0C42A751D9100BEC1B3 /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
+		66196B002A7B9CCD00735C4F /* RootPresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPresentationView.swift; sourceTree = "<group>"; };
+		66196B022A7C0F4400735C4F /* NavigationStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStateManager.swift; sourceTree = "<group>"; };
 		664842822A6F999600C23F23 /* Sayahat.ai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sayahat.ai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		664842852A6F999600C23F23 /* Sayahat_aiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sayahat_aiApp.swift; sourceTree = "<group>"; };
 		664842872A6F999600C23F23 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -123,6 +133,12 @@
 		665B22FC2A73115A000F587E /* Sayahat-ai-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Sayahat-ai-Info.plist"; sourceTree = SOURCE_ROOT; };
 		666B3F612A7162B0002E2945 /* DefaultAlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlamofireManager.swift; sourceTree = "<group>"; };
 		667D90E72A765AA800C059D4 /* cityFacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cityFacts.swift; sourceTree = "<group>"; };
+		66CF3DFA2A7989F10036E904 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
+		66CF3DFC2A7999790036E904 /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
+		66E19E202A7A08D400BED6C4 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
+		66E19E222A7A08E300BED6C4 /* NewsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailView.swift; sourceTree = "<group>"; };
+		66E19E242A7B4FFF00BED6C4 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		66E19E262A7B513200BED6C4 /* NoNetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoNetworkView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +177,7 @@
 		664842842A6F999600C23F23 /* Sayahat.ai */ = {
 			isa = PBXGroup;
 			children = (
+				66CF3DF92A7989E40036E904 /* News */,
 				665B22FC2A73115A000F587E /* Sayahat-ai-Info.plist */,
 				665B22F92A72B732000F587E /* Utilities */,
 				664842852A6F999600C23F23 /* Sayahat_aiApp.swift */,
@@ -181,6 +198,8 @@
 				664842AD2A6F9A0B00C23F23 /* Authorization */,
 				6648428B2A6F999800C23F23 /* Preview Content */,
 				6614C0BE2A7394BF00BEC1B3 /* Launch Screen.storyboard */,
+				66E19E242A7B4FFF00BED6C4 /* NetworkMonitor.swift */,
+				66196B002A7B9CCD00735C4F /* RootPresentationView.swift */,
 			);
 			path = Sayahat.ai;
 			sourceTree = "<group>";
@@ -248,6 +267,7 @@
 				664842BE2A6F9A1400C23F23 /* OnboardingItemView.swift */,
 				664842BF2A6F9A1400C23F23 /* IntroModel.swift */,
 				664842C02A6F9A1400C23F23 /* OnboardingView.swift */,
+				66E19E262A7B513200BED6C4 /* NoNetworkView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -302,8 +322,8 @@
 			isa = PBXGroup;
 			children = (
 				664842D82A6F9A4500C23F23 /* ChatMessage.swift */,
-				664842D92A6F9A4500C23F23 /* ChatViewModel.swift */,
 				664842DA2A6F9A4500C23F23 /* OpenAIService.swift */,
+				664842D92A6F9A4500C23F23 /* ChatViewModel.swift */,
 				664842DB2A6F9A4500C23F23 /* MessageOwner.swift */,
 			);
 			path = ViewModels;
@@ -350,8 +370,20 @@
 			isa = PBXGroup;
 			children = (
 				665B22FA2A72B776000F587E /* CustomMoyaProvider.swift */,
+				66196B022A7C0F4400735C4F /* NavigationStateManager.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		66CF3DF92A7989E40036E904 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				66CF3DFA2A7989F10036E904 /* NewsView.swift */,
+				66E19E222A7A08E300BED6C4 /* NewsDetailView.swift */,
+				66CF3DFC2A7999790036E904 /* NewsService.swift */,
+				66E19E202A7A08D400BED6C4 /* NewsViewModel.swift */,
+			);
+			path = News;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -439,29 +471,36 @@
 			files = (
 				664842DF2A6F9A4500C23F23 /* OpenAIService.swift in Sources */,
 				664842D12A6F9A2800C23F23 /* ActivityDetailsView.swift in Sources */,
+				66E19E272A7B513200BED6C4 /* NoNetworkView.swift in Sources */,
 				664842FD2A6F9B0C00C23F23 /* AppDelegate.swift in Sources */,
 				664842ED2A6F9A5000C23F23 /* InputViewModel.swift in Sources */,
 				664842B72A6F9A0B00C23F23 /* AuthorizationViewModel.swift in Sources */,
 				664842E12A6F9A4500C23F23 /* ChatView.swift in Sources */,
 				664842D42A6F9A2800C23F23 /* TripView.swift in Sources */,
+				66E19E252A7B4FFF00BED6C4 /* NetworkMonitor.swift in Sources */,
 				664842EE2A6F9A5000C23F23 /* MainInputView.swift in Sources */,
 				664842A52A6F9A0000C23F23 /* MapAnnotationView.swift in Sources */,
 				664842F12A6F9A5000C23F23 /* DateInputView.swift in Sources */,
 				667D90E82A765AA800C059D4 /* cityFacts.swift in Sources */,
 				664842882A6F999600C23F23 /* ContentView.swift in Sources */,
 				664842E02A6F9A4500C23F23 /* MessageOwner.swift in Sources */,
+				66CF3DFB2A7989F10036E904 /* NewsView.swift in Sources */,
 				664842AB2A6F9A0600C23F23 /* ForwardArrowButton.swift in Sources */,
 				664842F02A6F9A5000C23F23 /* CitiesInputForm.swift in Sources */,
 				664842B52A6F9A0B00C23F23 /* ForgotPasswordView.swift in Sources */,
 				664842D22A6F9A2800C23F23 /* TripsView.swift in Sources */,
+				66CF3DFD2A7999790036E904 /* NewsService.swift in Sources */,
 				664842FB2A6F9AFF00C23F23 /* AppDataLocalAPI.swift in Sources */,
 				664842BB2A6F9A1000C23F23 /* SettingsView.swift in Sources */,
 				6648429E2A6F9A0000C23F23 /* MapView.swift in Sources */,
 				664842A42A6F9A0000C23F23 /* LocationManager.swift in Sources */,
+				66E19E212A7A08D500BED6C4 /* NewsViewModel.swift in Sources */,
 				6648429D2A6F9A0000C23F23 /* LocationRequestView.swift in Sources */,
 				664842A32A6F9A0000C23F23 /* LocationsListView.swift in Sources */,
 				664842D32A6F9A2800C23F23 /* DaysPlanView.swift in Sources */,
+				66196B032A7C0F4400735C4F /* NavigationStateManager.swift in Sources */,
 				664842A22A6F9A0000C23F23 /* LocationsViewModel.swift in Sources */,
+				66E19E232A7A08E300BED6C4 /* NewsDetailView.swift in Sources */,
 				6614C0C32A74CC0500BEC1B3 /* ChangePasswordView.swift in Sources */,
 				664842B62A6F9A0B00C23F23 /* AuthorizationService.swift in Sources */,
 				664842DD2A6F9A4500C23F23 /* ChatMessage.swift in Sources */,
@@ -479,6 +518,7 @@
 				664842AA2A6F9A0600C23F23 /* TransparentBlurView.swift in Sources */,
 				664842C42A6F9A1400C23F23 /* OnboardingView.swift in Sources */,
 				664842D02A6F9A2800C23F23 /* TripsViewModel.swift in Sources */,
+				66196B012A7B9CCD00735C4F /* RootPresentationView.swift in Sources */,
 				664842B42A6F9A0B00C23F23 /* AuthorizationView.swift in Sources */,
 				664842EF2A6F9A5000C23F23 /* PlanGenerationView.swift in Sources */,
 				6614C0C52A751D9100BEC1B3 /* FAQView.swift in Sources */,
@@ -612,6 +652,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -656,6 +697,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;

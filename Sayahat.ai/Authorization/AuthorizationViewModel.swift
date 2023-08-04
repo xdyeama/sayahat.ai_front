@@ -71,7 +71,7 @@ class AuthorizationViewModel: ObservableObject{
         }
     }
     
-    func authorize(isLoggedIn: Binding<Bool>){
+    func authorize(){
         self.loginStatus = .loading
         print(email, password)
         provider.request(.authorizeUser(email: email, password: password)){ [weak self]
@@ -88,7 +88,6 @@ class AuthorizationViewModel: ObservableObject{
                             self.isLoggedIn = true
                             AppDataAPI.isLoggedIn = true
                             AppDataAPI.token = self.token
-                            isLoggedIn.wrappedValue = true
                             self.loginStatus = .none
                         }
                         
@@ -105,7 +104,7 @@ class AuthorizationViewModel: ObservableObject{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2){
                         self.loginStatus = .none
                     }
-                    isLoggedIn.wrappedValue = false
+                    self.isLoggedIn = false
                 }
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
@@ -113,14 +112,29 @@ class AuthorizationViewModel: ObservableObject{
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2){
                     self.loginStatus = .none
                 }
-                isLoggedIn.wrappedValue = false
+                self.isLoggedIn = false
                 
             }
         }
     }
     
-    func restorePassword(){
-        
+    func restorePassword(_ responseStatus: Binding<ResponseStatus>){
+        provider.request(.resetPassword(email: restorePassEmail)){ result in
+            switch result{
+            case .success(let response):
+                if response.statusCode == 200{
+                    responseStatus.wrappedValue = ResponseStatus.success
+                }else if response.statusCode == 404{
+                    responseStatus.wrappedValue = ResponseStatus.userNotExist
+                    print("User does not exist")
+                }else if response.statusCode == 500{
+                    responseStatus.wrappedValue = ResponseStatus.failure
+                }
+            case .failure(let error):
+                print("Error restoring password: \(error.localizedDescription)")
+                responseStatus.wrappedValue = ResponseStatus.failure
+            }
+        }
     }
 }
 
